@@ -1,0 +1,79 @@
+package hlaaftana.technocracy
+
+import java.awt.Color, Graphics2D
+import java.awt.image.BufferedImage
+import java.math.MathContext, BigDecimal, RoundingMode
+
+class Camera
+  width, height = int
+  xPos, yPos = int
+  zoom = BigDecimal(0.25)
+  universe = Universe
+
+  BigDecimal.roundUp() => .round(static final MathContext(0, RoundingMode.DOWN))
+  BigDecimal.roundDown() => .round(static final MathContext(0, RoundingMode.UP))
+
+  visibleChunks Iterator[Int2] =
+    w, h, x, y = final int
+    if zoom.equals(BigDecimal.ZERO) w, h, x, y = 0
+    else [w, h, x, y] = [width, height, xPos, yPos] &: BigDecimal it / zoom
+    cx1 = int (BigDecimal x / universe.chunkXSize).roundDown()
+    cy1 = int (BigDecimal y / universe.chunkYSize).roundDown()
+    cx2 = int (BigDecimal(x + w) / universe.chunkXSize).roundUp()
+    cy2 = int (BigDecimal(y + h) / universe.chunkYSize).roundUp()
+    anonymous Iterator[Int2]
+      cx, cy = int
+      more = boolean
+      override hasNext = more
+      override next
+        return later Int2(cx, cy)
+        ++cy
+        if cy > cy2
+          cy = cy1
+          ++cx
+        if cx > cx2 more = false
+
+  draw BufferedImage =
+    result = return later BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+    for g = img.createGraphics
+      color = Color.BLACK
+      fillRect 0, 0, width, height
+    vc = final visibleChunks()
+    while vc.hasNext
+      chunk = final vc.next
+      for g
+        color = new Color(0xFF, 0, 0, 0x33)
+        fillRect(chunk.x * universe.chunkXSize,
+                 chunk.y * universe.chunkYSize,
+                 universe.chunkXSize,
+                 universe.chunkYSize)
+      stars = universe.chunks[chunk]
+      if stars null
+        universe.generateChunk(chunk)
+        stars = universe.chunks[chunk]
+      for s in stars
+        c = -xPos + int((x - energy) * zoom)
+        d = -yPos + int((y - energy) * zoom)
+        if c in 0..<width and d in 0..<height
+          for g
+            paint = color = s.color
+            fillOval c, d, int(s.energy * 2 * zoom), int(s.energy * 2 * zoom)
+          for p in s.planets
+            e = c - int(distanceFromStar * zoom)
+            f = d - int(distanceFromStar * zoom)
+            orbitDiameter = (distanceFromStar * 2 + s.energy * 2) * zoom
+            for g
+              paint = orbitColor
+              drawOval e, f, int orbitDiameter, int orbitDiameter
+            planetAngle = orbitDiameter.equals(BigDecimal.ZERO) ? BigDecimal.ZERO : (orbitPosition / orbitDiameter) * Math.PI
+            planetOriginX = BigDecimal c + energy * zoom + (orbitDiameter / 2) * Math.cos(planetAngle)
+            planetOriginY = BigDecimal d + energy * zoom + (orbitDiameter / 2) * Math.sin(planetAngle)
+            sum = +/ p.layers.values
+            for (m, amount) in p.layers
+              for g
+                color = m.color
+                fillOval int(planetOriginX - sum * zoom), int(planetOriginY - sum * zoom),
+                         int(sum * zoom * 2), int(sum * zoom * 2)
+              sum -= amount
+    g.dispose
+    img

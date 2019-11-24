@@ -1,0 +1,36 @@
+resolve
+    class date = array(int32)
+    class IllegalArgumentException from java.lang
+    method sqrt from java.lang.Math
+    method concat from soda.util.CharSeqUtils
+    method average from soda.util.Collections
+    field out from java.lang.System
+
+record Person
+    string name
+    date birthday
+
+    void setBirthday(date d) = case
+        when len d eq 3
+            self.birthday = d
+        else throw new IllegalArgumentException "Date has to have length 3"
+
+enter Person
+
+const monthDays = array 31 28 31 30 31 30 31 31 30 31 30 31
+
+func int32 dateToDays(date d)
+    d[2] + d[1] * monthDays[d[1] - 1] + d[0] * 365 + d[0] / 4
+
+proc main (array(string) args)
+    let
+        a = array
+            new Person "Joe" (array 1782 2 14)
+            new Person "Dominic" (array 2016 7 31)
+            new Person "Laura" (array 1973 4 6)
+            new Person "Aleks" (array 1899 12 25)
+        mean = average a
+        variance = 0f64
+    index i item p over a
+        variance = (variance + (dateToDays p.birthday) - mean) ** 2 / (i + 1)
+    out.println(concat("Variance: ", variance, ", standard deviation: ", sqrt(variance)))

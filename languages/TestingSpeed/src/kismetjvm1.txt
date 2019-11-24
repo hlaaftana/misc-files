@@ -1,0 +1,19 @@
+package hlaaftana.discordg
+
+class DiscordG {
+	const VERSION "5.0.2"
+	const GITHUB "https://github.com/hlaaftana/DiscordG"
+	const USER_AGENT [string "DiscordBot (" GITHUB ", " VERSION ")"]
+	
+	self.withLogin [email string password string] Client {
+		tap [Client] [login email password]
+	}
+	
+	self.withToken [token string bot bool = true] Client {
+		tap [Client] [login token bot]
+	}
+	
+	self.withToken [botname string token string] Client {
+		tap [Client] [login botname [fn token]]
+	}
+}

@@ -1,0 +1,16 @@
+# create fibonacci
+
+use std.array[newArray] sys.io[echo]
+
+def fib n # Returns the fibonacci sequence up to index n
+  f = 0
+  s = 1
+  arr = newArray 10
+  i = 0
+  while i < n
+    arr[i] = f = s + (s = f)
+    incr i
+  arr
+
+echo (fib 10)
+echo (sum (fib 10))

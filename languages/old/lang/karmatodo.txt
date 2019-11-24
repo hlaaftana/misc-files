@@ -1,0 +1,71 @@
+2. property/argument syntax `x [is[n't] (checks...) ] [describe (comment...)]`
+ - describe is ignored and for comments
+4. homoiconicity
+5. exporting scope, using and importing like in guild.karma, module idea
+6. standard library
+ - default scope
+   - `try`, `catch`, `throw` where throw throws a Java exception that wraps a Value. if the Value is classed and
+     extends the class Exception it'll get its message property or whatever
+   - case when else
+   - def
+   - => and func for lambdas, left side is arguments right side is code
+   - class
+ - function
+   - `curry func (args...)`
+   - `rcurry func (args...)`
+   - `ncurry func (index array)...`
+   - (dont know if possible) `|>` and `<|` operators
+     - work for macros too by adding |> lefthand side to the left of the right side via AST??
+     - or just curry
+   - `constfunc x` returns `identity x`
+   - `identity x` is a function that returns x for any arguments
+   - `apply func arr`
+   - `memoize func`
+ - string
+   - string[i] returns string not char
+   - string[array i j] substrings
+   - `starts|ends str x`
+   - `split str x`
+   - `join (delim arr)|(strings...)` for concatenation
+   - `words [references...]` macro which takes an array of tokens and turns them to strings
+   - `[r]replace str [replacement = ""]`
+   - `[r]sub str i [j]` for substrings
+   - `charsToStr arrayOfIntegers`
+   - `chars str` returns an array of integers
+   - `(l|r|c)just str width pad`
+   - `reverse str`
+   - `num str`
+   - `cho[m]p str`
+   - `upper|lower str`
+   - `lines str`
+   - `next str`
+   - `format pattern stuf...`
+   - `repeat|[r]collate str int`
+   - `char str [i = 0]` returns char (integer) at index i
+ - collection
+   - coll[array i j] subcoll
+   - `newArray len`
+   - `newList capacity`
+   - `reverse coll`
+   - `join (colls...)` for concatenation
+   - `repeat|[r]collate coll int`
+   - `[r]sub coll i [j]`
+   - all self explanatory `[r][un]find|map|[r]each|[un]filter|[un]count|[r](drop|take)(while|until) coll lambda` where
+     lambda can take
+   - `group arr lambda` maps the result of lambda to the iterated value
+   - `reduce [first] arr lambda` where lambda takes 2 arguments
+7. class definitions `class X [of Parent1 Parent2 Parent3]`
+ - `property`
+   - property definitions are after `property` or individually in the block
+   - property definition's block can have `get` and `set x` function blocks
+ - base methods
+   - code has `self` defined
+   - `constructor (function args...)`
+     - is wrapped by CodeConstructor which extends FunctionValue and has a CodeFunctionValue property which is this
+   - `subscript|property get|set name [value]`
+     - for property methods the first argument is always a string
+   - `compare|equals|call [args]`
+   - `size|hash`
+
+
+100000. compile to java source or bytecode

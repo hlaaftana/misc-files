@@ -1,0 +1,81 @@
+factors n int => list[int] = []
+  i = 0 & m = n
+  while i < m
+    n divs i?
+      add result, i
+      m = n div i
+      m != i? add result, m
+    incr i
+
+# seq means iterable
+negate s seq[T] => list[T]: for(T) = []
+  over s
+    add result, -it
+
+jaden s str
+  s.split*.capitalize.join ' '
+
+rigdice
+  case rand 50
+    <= 11? 6
+    else rand 5
+
+fizzbuzz n int
+  to n
+    add result, (case
+      divs 15? "FizzBuzz"
+      divs 3? "Fizz"
+      divs 5? "Buzz"
+      else it)
+
+cards =
+  flatmap a words(ace two three four five &
+                  six seven eight nine ten &
+                  jack queen king)
+    map b words(hearts spades clubs diamonds)
+      "%a of %b"
+
+words ...names word: macro, call(paren) | names
+
+# for stupid untired people
+each(name: word, sequence: expr[seq[T]]): &
+    for(T), macro, blockarg code, blockinst current = l
+  index = code.varidx(name)
+  item over sequence
+    inst = code.instance(current)
+    inst.setvar(index, item) 
+    inst.eval()
+
+sumpos s seq[num] = 0
+  over s | match | positive? add result, it
+
+repeat s str n int = capStr(s.len * n)
+  to n | add result, s
+
+reverse s seq[T]: for T
+  l = collect s
+  l.high to 0
+    yield l at it
+
+class Account
+  name str
+  balance num = 0
+  deposit v num | add balance, v
+  show | "%name ($%balance)"
+
+concept Showable t
+  show t < str
+
+convert obj T x typeinfo: for T < Showable, when(x == str)
+  show obj
+
+acc = Account(name "Casual Master" balance 9000)
+assert convert(acc, str) == "Casual Master ($9000)"
+
+# context matters for multiple return types
+immutable s list[T] => bool: for T, returntype(explicit) | ...
+immutable s list[T] => ImmutableList[T]: for T | ...
+
+# assert thinks its argument must be bool
+assert immutable immutable [1, 2, 3]
+       # bool    # ImmutableList

@@ -1,0 +1,48 @@
+factors num: Int => list: List[type(num)] = [] {
+  i = 1 & m = num
+  while i < m {
+    if num divs i {
+      list << i
+      m = num div i
+      list << m if m != i
+    }
+    incr i
+  }
+}
+
+jaden str: String {
+  str.split*.capitalize.join(' ')
+}
+
+rigged {
+  match rand(50) {
+    <= 11 { 6 }
+    else { rand(5) }
+  }
+}
+
+iterator fizzbuzz n: Int {
+  for i, 1 to n
+    yield match i {
+      divs 15 { "FizzBuzz" }
+      divs 3 { "Fizz" }
+      divs 5 { "Buzz" }
+      else { show i }
+    }
+}
+
+const names =  %[ace, two, three, four, five, six,
+                 seven, eight, nine, ten, jack, queen, king]
+const shapes = %[hearts, spades, clubs, diamonds]
+let cards = for a in names & b in shapes { "%a of %b" }
+
+class Account {
+  name: String
+  balance: Num
+
+  deposit some: Num {
+    balance.add(some)
+  }
+
+  show { "%name ($%balance)" }
+}

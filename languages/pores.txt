@@ -1,0 +1,54 @@
+# same as binary_search [a T, k int] for T =
+binary_search [a; k int] =
+  i int {result} = 0
+  c = b = a.len
+  while i < b
+    if get [a, mid = (i + b) / 2] < k
+      i = mid + 1
+    else
+      b = mid
+  if i < c and get [a, i] is k
+    i = -1
+
+consecutives [x seq [T], s int] list [T, len: s] for T {iterator} =
+  for i in 0..(x.len - s)
+    yield x[i..<(i + s)]
+
+equals_ignore_case x list [string] Bool =
+  for [a, b] in consecutives [x, 2]
+    if not lowercase [a] is lowercase [b]
+      return false
+  true
+
+factorial [n natural] = permutation [n, n]
+
+permutation [n natural, r int where r in 0..n] =
+  product [(n-r+1)..n]
+
+combination_f [n, r natural] positive int =
+  x float {result} = 1
+  for i in 0..<r
+    x *= float(n - i) / (r - i)
+
+combination [n, r natural] =
+  permutation [n, r] div factorial [r]
+
+fibonacci [n int] =
+  f = 0
+  s = 1
+  if (isNeg = n < 0) then n = -n
+  for i in 1..n
+    f = s + (s = f)
+  if isNeg and n divides 2 then -f else f
+
+fizzbuzz [n positive int] void =
+  for i in 1..n
+    if a = i divides 3 then print ["Fizz"]
+    if b = i divides 5 then print ["Buzz"]
+    if not a and not b then print [i]
+    print ["\n"]
+
+memoize [f T -> U] T -> U for [T, U] =
+  cache = Map [T, U] []
+  func (t T) =
+    if (u = cache[t]) isnt nil then u else cache[t] = f t

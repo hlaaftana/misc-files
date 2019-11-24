@@ -1,0 +1,42 @@
+"guild module example"
+
+use
+  std
+    string
+      replace
+      join
+    map
+      macro map
+      macro traverse
+  discord.utils
+
+def stripMentions
+  desc "Strips mentions from a Discord message"
+  when (content is a string) is a string
+    replace content "@" "@\u{200b}"
+  when (content is a no) is a string
+    ""
+  when content is a string
+    stripMentions (show content)
+
+cmd !tag
+  setup
+    gd = getGuildData guild
+
+  on "set" name & text
+    gd.tags = map
+      gd.tags
+      (name) = map
+        content = text
+        author = message.author.id
+    "Successful"
+
+  on "author" name
+    join "Author for tag" name " is " gd.tags[name].author
+
+  on name
+    tag = safe gd.tags[name].content
+    case tag
+      when
+        stripMentions tag
+      else "Invalid tag"

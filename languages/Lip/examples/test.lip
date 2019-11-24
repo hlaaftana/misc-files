@@ -1,0 +1,3 @@
+x y do= 3
+% = x * y
+incr %

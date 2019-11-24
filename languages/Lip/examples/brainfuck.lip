@@ -1,0 +1,100 @@
+use
+  std
+    ast
+      macro getScope
+      set
+    list
+      listWithDefault
+      newList
+      append
+      toArray
+    string
+      macro words
+      charsToStr
+      char
+      sub
+      join
+
+# <<: is iteration over list operator, <<:= sets everything on the left to the iterations of the right
+OPEN_BRACK CLOSE_BRACK INCR DECR FORWARD BACKWARD OUTPUT INPUT <<:= "[]+-><.,"
+
+def input vm
+  case
+    when vm.inputPtr > size vm.input
+      0
+    else
+      tap vm.input[vm.inputPtr]
+        incr vm.inputPtr
+
+class Token
+
+class LoopToken of Token
+  constructor my tokens
+
+class NormalToken of Token
+  constructor my char
+
+class BFVM
+  my
+    inputPtr = 0
+    input
+    ptr = 0
+    stack = listWithDefault 0
+    output = newList no
+
+def tokenize code
+  tokens = newList no
+  parens = 0
+  deepStart = no
+  index i c <<: code
+    case parens
+      when 0
+        case c
+          when OPEN_BRACK
+            incr parens
+            deepStart = i
+          else
+            tokens << new NormalToken c
+      else
+        case c
+          when OPEN_BRACK
+            incr parens
+          when CLOSE_BRACK
+            decr parens
+        if parens eq 0
+          tokens << new LoopToken (tokenize (sub code deepStart (i + 1)))
+          deepStart = no
+  toArray tokens
+
+def evaluate vm code
+  token <<: code
+    case token
+      when of NormalToken
+        case token.char
+          when INCR
+            incr vm.stack[vm.ptr]
+          when DECR
+            decr vm.stack[vm.ptr]
+          when INPUT
+            vm.stack[vm.ptr] = input vm
+          when OUTPUT
+            vm.output = append vm.output vm.stack[vm.ptr]
+          when FORWARD
+            incr vm.ptr
+          when BACKWARD
+            decr vm.ptr
+      when of LoopToken
+        while vm.stack[vm.ptr] neq 0
+          evaluate vm token.tokens
+  join vm.output
+
+def interpret
+  desc "Interprets Brainfuck code"
+  when code input
+    vm = new BFVM
+    vm.input = input
+    evaluate vm (tokenize code)
+  when code
+    interpret code ""
+
+export local except input

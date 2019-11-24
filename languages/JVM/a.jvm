@@ -1,0 +1,54 @@
+fields PI: Math, out: System
+
+methods printf: PrintStream, hypot: Math
+method name: 'valueOf', from: Double, returns: Double, takes: [double], as: 'valueOfDouble'
+method '<init>', from: Object
+
+access PUBLIC | SUPER
+become 'hlaaftana/jvm/ThisClass'
+extend Object
+
+defineField {
+    access PUBLIC | STATIC | FINAL
+    name 'MESSAGE'
+    type String
+    attributes constantValue(string('Hypotenuse of pi and 1 is: '))
+}
+
+defineField(PUBLIC | STATIC | FINAL, 'RESULT', double)
+
+message = field MESSAGE: this
+result = field RESULT: this
+
+defineMethod PUBLIC | SYNTHETIC, '<init>', void, code {
+    load 0
+    invokeSpecial init
+    void
+}
+
+defineMethod PUBLIC | STATIC | VARARGS, '<clinit>', Object, code {
+    push 1.0d
+    push PI
+    call hypot
+    set result
+	voidReturn()
+}
+
+defineMethod PUBLIC | STATIC, 'main', [String[]], void, code {
+    push out
+    push '%s %f'
+    push 2
+    arrayOf Object
+    duplicate()
+    push 0
+    push message
+    storeArray()
+    duplicate()
+    push 1
+    push result
+    call valueOfDouble
+    storeArray()
+    call printf
+    pop()
+    voidReturn()
+}

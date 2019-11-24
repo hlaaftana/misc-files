@@ -1,0 +1,50 @@
+take a: Iterable[T], i: int => r: List[T] = [] forall T do
+  for x of a until i == 0 do
+	r.add x
+	decr i
+
+"i32 and i64 are aliases for int and long"
+type Integral = i32 | i64 | BigInteger
+
+factors(n: Integral) => r: List[type[n]] = [] do
+  var do
+	i = 1
+    m = n
+  while i < m do
+	if n div? i do # div? checks if mod is 0
+	  add r, i
+	  m = n.div i
+	  unless m == n do add r, m
+	incr i
+
+class User do
+  static priv lastId = 0i64
+  name: String
+  final id = incr lastId
+  
+  toString do "%{name} (%{id})"
+
+join(coll: Iterable[T], inter = "") forall T do
+  var s = new StringBuilder
+  # toString might look like an infix operator here
+  # but the compiler knows toCharArray is a function
+  let j = inter toString toCharArray
+  for x of coll index i do
+	if i == 0 do append(s, j)
+    #.. if we did "f a, b g" here, it would parse as "g(f(a, b))"
+    if the word "nochain" is in the definition of g it will parse as "f(a, g(b))" ..#
+	append(s, x toString)
+  s toString
+
+map(coll: Iterable[T], f: (T) -> U) => r: List[U] = [] forall T, U do
+  for x of coll do r add f(x)
+
+# inefficient implementation of toString for iterables
+toString coll: Iterable[T] forall T do
+  # \toString uses a toString dynamic dispatch lambda
+  "[" + map coll, \toString join ", " + "]"
+
+tap obj: T, f: (T) -> U => obj forall T, U do f obj
+
+User.new "69bo" tap do
+  name = "%{name}#%{id}"

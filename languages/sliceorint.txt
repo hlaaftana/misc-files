@@ -1,0 +1,17 @@
+assert (x: bool) throws {AssertionFailed} = ;; on the fly errors
+  if not x
+    raise AssertionFailed
+
+binary_search [a: multiple T, i: single int32]: T for T =
+  i: result = 0
+  c = b = size [a]
+  while i < b
+    mid = half i + b
+    if a at mid < k
+      i = next mid
+    else
+      b = mid
+  unless i < c and a at i is k
+    i = -1
+
+assert [1,2,3,4,5,6].binary_search(4) is 3

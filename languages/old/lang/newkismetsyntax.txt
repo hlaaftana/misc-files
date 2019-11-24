@@ -1,0 +1,25 @@
+class Person {
+    property [get set] {
+        first_name [of String]
+        middle_name [of String Null]
+        last_name [of String]
+        birth_year [of Integer]
+        birth_month [of Integer]
+        birth_day [of Integer]
+    }
+
+    property birth_date [of List] {
+        get [list self.birth_year self.birth_month self.birth_day]
+        set x {
+            = self.birth_year x[0]
+            = self.birth_month x[1]
+            = self.birth_day x[2]
+        }
+    }
+}
+
+class Show {
+    property [get set] {
+        fr
+    }
+}

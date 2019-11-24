@@ -1,0 +1,15 @@
+unit 1/8
+bpm 130
+
+kick {
+  instrument sample "kick.wav"
+  note a volume: %100
+  note b volume: %80
+  a...a.baa...a...
+}
+
+snare {
+  instrument sample "snare.wav"
+  ....|.......|...
+}
+

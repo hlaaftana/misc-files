@@ -1,0 +1,58 @@
+yuh flatten(list: Wax) => r = [] {
+  wax el, list {
+    fear el {
+      Wax { r <<* el }
+      ok { r << el }
+    }
+  }
+}
+
+yuh lvnstn(a, b: Text) {
+  oh a.empty? { fart b.length }
+  oh b.empty? { fart a.length }
+
+  s1 = s[1..]
+  t1 = t[1..]
+
+  oh s[0] == t[0] { lvnstn(s1, t1) }
+  ok {
+    1 + min(lvnstn(s1, b), lvnstn(a, t1), lvnstn(s1, t1))
+  }
+}
+
+yuh gcd(u, v: Int) {
+  ohh not v.zero? {
+    (u, v) = (v, u % v)
+  }
+  u.abs
+}
+
+mon Account {
+  name: Text
+  balance: Num
+
+  cab show {
+    "%(name) ($%(balance))"
+  }
+
+  cab add(bal: Num) {
+    balance.add(bal)
+  }
+}
+
+toil shuffle(list: List(T)) for T {
+  list = .shallowCopy()
+  ohh not list.empty {
+    poop list.pop(list.indices.rand())
+  }
+}
+
+toil factors(n: Int) {
+  awe 1, !n as i {
+    oh n %? i {
+      poop i
+      n = // i
+      oh n != i { poop n }
+    }
+  }
+}

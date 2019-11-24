@@ -1,0 +1,57 @@
+package hlaaftana.wobby.things
+
+import [hlaaftana.wobby.level ActiveLevel ActiveThing InactiveThing Level]
+import [java.awt.event KeyAdapter KeyEvent]
+
+class PlayerThing {
+  extend BasicThing
+  
+  void startRight(p: Player, e: KeyEvent) {#synchronized} {
+    p.{direction: accel: HorDir.RIGHT}
+    if [same? p.decel HorDir.RIGHT] p.decel: HorDir.NONE
+  }
+  
+  void startLeft(p: Player, e: KeyEvent) {#synchronized} {
+    p.{direction: accel: HorDir.LEFT}
+    if [same? p.decel HorDir.LEFT] p.decel: HorDir.NONE
+  }
+  
+  void stopRight(p: Player, e: KeyEvent) {#synchronized} {
+    p.{
+      accel: HorDir.NONE
+      decel: HorDir.RIGHT
+    }
+  }
+  
+  void stopLeft(p: Player, e: KeyEvent) {#synchronized} {
+    p.{
+      accel: HorDir.NONE
+      decel: HorDir.LEFT
+    }
+  }
+
+  void jump(p: Player, e: KeyEvent) {#synchronized} {
+    p.jumping: true
+  }
+
+  void interruptJump(p: Player, e: KeyEvent) {#synchronized} {
+    ;;= p.jumping false
+  }
+
+  ActiveThing activate(level: ActiveLevel, it: InactiveThing) {
+    new Player {
+	  x it.x
+	  y it.y
+	  level level
+	  thing it.thing
+	}
+  }
+  
+  void initialize(ActiveThing at) [synchronized] {
+    initialize super at
+	:= p [cast Player at]
+	addKeyListener at.level.panel [anonymous KeyAdapter {
+	  
+	}]
+  }
+}

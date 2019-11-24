@@ -1,0 +1,56 @@
+import [from java.lang] [Math sqrt] System.out.printf
+
+type Month [enum int] {
+  January 1; February; March; April; May
+  June; July; August; September; October
+  November; December
+}
+
+type Date tuple {
+  year int
+  month Month
+  day int
+} ;; semantic int[]
+
+const monthDays array[Month int] {
+  January 31; February 28; March 31; April 30; May 31
+  June 30; July 31; August 31; September 30; October 31
+  November 30; December 31
+}
+
+dateToDays [date Date] {
+  from date [+ day [* month monthDays[- month 1]] [* day 365] [div day 4]]
+}
+
+average [coll seq[T]] for(<: T num) {
+  var [sum size] T 0
+  for: [x coll] {
+    += sum x
+    incr size
+  }
+  / sum size
+}
+
+class Person [name string birthday Date] {
+  daysBornAfterChrist [] dateToDays(birthday)
+}
+
+begin
+
+let people [new array[Person]] {
+  "Joe" [1782 February 14]
+  "Dominic" [2016 July 31]
+  "Laura" [1973 April 6]
+  "Aleks" [1899 December 25]
+}
+
+let days people.&for:(it.daysBornAfterChrist)
+let mean days.average()
+
+var variance 0f64
+
+for: [i(1) value days] {
+  = variance [/ [+ variance pow(- value mean, 2)] i]
+}
+
+printf "Variance: %f, standard deviation: %f\n" variance sqrt(variance)
