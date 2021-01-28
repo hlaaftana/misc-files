@@ -9,10 +9,10 @@ Junk Julia and Nim wrappers I wrote in 2015/2016. There is an actual Julia wrapp
 
 My old Discord content that got their own repositories, might forget to update this with time so excuse me:
 
-* [DiscordG](https://github.com/hlaaftana/DiscordG): Discord library for Groovy
-* [LOLHr](https://github.com/hlaaftana/LOLHr): Discord client in JavaFX (don't sue me)
-* [toilet/Karma Fields/|><|](https://github.com/hlaaftana/toilet): Discord bot using DiscordG
-* [pkpsgpsg](https://github.com/hlaaftana/pkpsgpsg): Discord bot with compile time command registering with macros/templates in Nim. Superseded by [locacaca](https://github.com/hlaaftana/locacaca)
+* [DiscordG](https://github.com/metagodcore/DiscordG): Discord library for Groovy
+* [LOLHr](https://github.com/metagodcore/LOLHr): Discord client in JavaFX (don't sue me)
+* [toilet/Karma Fields/|><|](https://github.com/metagodcore/toilet): Discord bot using DiscordG
+* [pkpsgpsg](https://github.com/metagodcore/pkpsgpsg): Discord bot with compile time command registering with macros/templates in Nim. Superseded by [locacaca](https://github.com/metagodcore/locacaca)
 
 ### Euler 451
 
@@ -24,7 +24,7 @@ Was going to be a wrapper for the Sony Vegas JavaScript scripting API for Nim's 
 
 ### Languages
 
-Programming languages I tried to make then moved on. The 1 language I wrote that I kept updating over time is [Kismet](https://github.com/hlaaftana/kismet), because I guess it was the first "proper" one I wrote. It was born from the Discord bot mentioned above called "toilet", I was writing a custom permissions parser. 
+Programming languages I tried to make then moved on.
 
 * Lip: Very crappy language overall but the syntax was super weird and complicated.
 * JVM: Groovy DSL for generating JVM bytecode. Tried to familliarize myself with the JVM, but got super bored making it and dropped it.
@@ -37,8 +37,8 @@ Most other files are concepts.
 ### Games
 
 * Pink: Ignore please, JavaFX base project code
-* 2D: Tile based Swing game implementation in Java. An effort to make [Wobby](https://github.com/hlaaftana/Wobby) simpler.
-* kaizo: A friend and I were planning to make this game together but we lost interest. Nim and SDL, was written after [BrokenAce's Time Machine](https://github.com/hlaaftana/BAsTimeMachine)
+* 2D: Tile based Swing game implementation in Java. An effort to make [Wobby](https://github.com/metagodcore/Wobby) simpler.
+* kaizo: A friend and I were planning to make this game together but we lost interest. Nim and SDL, was written after [BrokenAce's Time Machine](https://github.com/metagodcore/BAsTimeMachine)
 
-Other old projects: [technocracy](https://github.com/hlaaftana/technocracy), [Chemical Energistics](https://github.com/hlaaftana/Chemical-Energistics)
+Other old projects: [technocracy](https://github.com/metagodcore/technocracy), [Chemical Energistics](https://github.com/metagodcore/Chemical-Energistics)
 
